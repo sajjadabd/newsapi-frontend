@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Form from '../../components/Form/Form';
+import Input from '../../components/Form/Input';
+import Button from '../../components/Form/Button';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -16,13 +19,13 @@ function Login() {
   };
 
   return (
-    <div>
+    <Form>
       <h2>Login</h2>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-      <button onClick={handleLogin}>Login</button>
+      <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+      <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+      <Button onClick={handleLogin}>Login</Button>
       <p>Don't have an account? <Link to="/register">Register</Link></p>
-    </div>
+    </Form>
   );
 }
 
