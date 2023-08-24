@@ -6,7 +6,7 @@ const Input = styled.input.attrs(props => ({
   value: props.value || '', // Default value
 }))`
   /* Define your styling here */
-  padding : 10px 20px;
+  padding : 5px 10px;
   outline : none;
 `;
 

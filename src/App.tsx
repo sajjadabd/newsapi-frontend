@@ -14,6 +14,7 @@ import Register from './pages/Auth/Register';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
 import theme from './styles/Theme';
+import Layout from './components/Layout/Layout';
 
 
 function App() {
@@ -21,16 +22,16 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <BrowserRouter>
-        <Header />
+        <Layout>
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
 
-        <Footer />
+        </Layout>
       </BrowserRouter>
     </ThemeProvider>
   );
