@@ -3,12 +3,20 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function Register() {
+
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post('/api/register', { email, password });
+      const response = await axios.post('/api/register', { 
+        username,
+        email, 
+        password,
+        passwordConfirmation
+      })
       // Handle success (e.g., redirect to login page)
     } catch (error) {
       console.error('Registration failed:', error);
