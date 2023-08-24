@@ -4,28 +4,81 @@ import axios from 'axios';
 import Form from '../../components/Form/Form';
 import Input from '../../components/Form/Input';
 import Button from '../../components/Form/Button';
+import { StyledForm } from '../../components/Form/StyledForm';
+
+
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
+  const [formData, setFormData] = useState({
+    email : '',
+    password: '',
+  });
+
+
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    console.log('registered...');
+    // Simulate a successful registration
+    /*
     try {
-      const response = await axios.post('/api/login', { email, password });
-      // Handle success (e.g., store token and redirect)
+      const response = await axios.post('/api/register', { 
+        email : formData.email, 
+        password : formData.password,
+      })
+      // Handle success (e.g., redirect to login page)
     } catch (error) {
-      console.error('Login failed:', error);
+      //console.error('Registration failed:', error);
     }
+    */
+    //const accessToken = 'sample_access_token';
+    //localStorage.setItem('access_token', accessToken);
+
   };
 
   return (
-    <Form>
-      <h2>Login</h2>
-      <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-      <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-      <Button onClick={handleLogin}>Login</Button>
-      <p>Don't have an account? <Link to="/register">Register</Link></p>
-    </Form>
+    <div>
+      <h2>Login Page</h2>
+
+      <StyledForm onSubmit={handleSubmit}>
+
+            {/* <label htmlFor="email">Email</label> */}
+
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+
+            {/* <label htmlFor="password">Password</label> */}
+
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="password"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+
+            <Button type="submit">Register</Button>
+        </StyledForm>
+
+        <p>Don't have an account? <Link to="/register">Register</Link></p>
+      </div>
   );
 }
 
