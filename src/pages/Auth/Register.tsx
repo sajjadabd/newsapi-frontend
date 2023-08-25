@@ -48,8 +48,11 @@ function Register() {
       window.location.href = '/home';
 
     } catch (error) {
-      //console.log('error')
-      console.error('Registration failed:', error);
+      if (axios.isAxiosError(error)) {
+        console.error('Registration failed:', error.response?.request.response);
+      } else {
+        console.error('Registration failed:', error);
+      }
     }
     
 

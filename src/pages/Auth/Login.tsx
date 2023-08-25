@@ -48,8 +48,11 @@ function Login() {
       window.location.href = '/home'; 
 
     } catch (error) {
-      //console.log('error')
-      console.error('Login failed:', error);
+      if (axios.isAxiosError(error)) {
+        console.error('Login failed:', error.response?.request.response);
+      } else {
+        console.error('Login failed:', error);
+      }
     }
     
   };
