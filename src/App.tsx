@@ -24,6 +24,7 @@ import axios from 'axios';
 import { validateTokenURL } from './services/api';
 
 import { redirect } from "react-router-dom";
+import { Loader, Spinner } from './components/Loader/Loader';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -59,7 +60,9 @@ function App() {
 
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader>
+      <Spinner></Spinner>
+    </Loader>;
   }
   
   if (!isUserAuthenticated && window.location.pathname != '/login') {

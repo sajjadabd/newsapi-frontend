@@ -40,7 +40,7 @@ function Login() {
 
       const { access_token } = response.data;
 
-      console.table({access_token})
+      //console.table({access_token})
 
       localStorage.setItem('access_token', access_token);
 
