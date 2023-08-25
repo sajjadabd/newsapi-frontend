@@ -1,6 +1,12 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { 
+  BrowserRouter, 
+  Route, 
+  Routes , 
+} from 'react-router-dom';
+
+
 
 import Home from './pages/Home';
 import Profile from './pages/Profile';
@@ -23,11 +29,14 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
 
+  // const location = useLocation();
+  // const currentPath = location.pathname;
+  // console.table({currentPath});
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token');
 
-    if (access_token) {
+    if (access_token != null) {
       axios
         .post( validateTokenURL , { access_token })
         .then(response => {
@@ -42,16 +51,20 @@ function App() {
     } else {
       setIsLoading(false); // Done loading
     }
+
+    return () => {
+      // Cleanup
+    }
   }, []);
 
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
-
-
-  if (!isUserAuthenticated) {
-    return redirect("/register");
+  
+  if (!isUserAuthenticated && window.location.pathname != '/login') {
+    window.location.href = '/login';
+    return ;
   }
 
 
@@ -72,6 +85,7 @@ function App() {
       </BrowserRouter>
     </ThemeProvider>
   );
+
 }
 
 export default App;
