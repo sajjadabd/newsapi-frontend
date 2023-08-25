@@ -8,9 +8,9 @@ export const NavLink = styled(Link)`
     color: LightGray ;
   };
   &:focus{
-      color: DarkSlateGray  ;
+      color: white  ;
   };
   &:active{
-      color: DarkSlateGray  ;
+      color: white  ;
   };
 `
