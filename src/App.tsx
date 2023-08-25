@@ -72,7 +72,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <BrowserRouter>
-        <Layout>
+        <Layout isUserAuthenticated={isUserAuthenticated} >
 
           <Routes>
             <Route path="/" element={<Home />} />

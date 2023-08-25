@@ -8,9 +8,11 @@ import { Navigation } from './StyledNavigation';
 import axios from 'axios';
 import { logoutURL } from '../../services/api';
 
+interface Props {
+  isUserAuthenticated : boolean ,
+}
 
-
-export default function Header () {
+const Header : React.FC<Props> = ({isUserAuthenticated}) => {
 
   const handleLogout = async (e : React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +24,7 @@ export default function Header () {
         },
       });
       localStorage.removeItem('access_token'); // Clear access token from local storage
+      window.location.href = "/";
       // Perform any other necessary cleanup or redirection
     } catch (error) {
       console.error('Logout failed:', error);
@@ -32,11 +35,20 @@ export default function Header () {
     <header>
       <Navigation>
         <UL>
-          <NavItem><NavLink to="/">Home</NavLink></NavItem>
-          <NavItem><NavLink to="/profile">Profile</NavLink></NavItem>
-          <NavItem><NavLink to="/login">Login</NavLink></NavItem>
-          <NavItem><NavLink to="/register">Register</NavLink></NavItem>
+          {isUserAuthenticated && (
+            <>
+            <NavItem><NavLink to="/">Home</NavLink></NavItem>
+            <NavItem><NavLink to="/profile">Profile</NavLink></NavItem>
+            </>
+          )}
+          {!isUserAuthenticated && (
+            <>
+              <NavItem><NavLink to="/login">Login</NavLink></NavItem>
+              <NavItem><NavLink to="/register">Register</NavLink></NavItem>
+            </>
+          )}
         </UL>
+        {isUserAuthenticated && (
         <aside>
           <form 
            action="/logout"
@@ -46,8 +58,12 @@ export default function Header () {
             <button>logout</button>
           </form>
         </aside>
+        )}
       </Navigation>
       
     </header>
 	)
 }
+
+
+export default Header
