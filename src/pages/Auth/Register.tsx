@@ -40,12 +40,14 @@ function Register() {
         password : formData.password,
       })
 
+      console.log(response.data)
+
       const { access_token } = response.data;
 
       localStorage.setItem('access_token', access_token);
 
       // Redirect the user to the home page or another appropriate page
-      window.location.href = '/home';
+      //window.location.href = '/';
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -74,6 +76,7 @@ function Register() {
             placeholder="username"
             value={formData.username}
             onChange={handleInputChange}
+            autoComplete="off"
           />
 
 
