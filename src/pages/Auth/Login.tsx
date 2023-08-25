@@ -40,14 +40,16 @@ function Login() {
 
       const { access_token } = response.data;
 
+      console.table({access_token})
+
       localStorage.setItem('access_token', access_token);
 
       // Redirect the user to the home page or another appropriate page
       window.location.href = '/home'; 
 
     } catch (error) {
-      console.log('error')
-      //console.error('Registration failed:', error);
+      //console.log('error')
+      console.error('Login failed:', error);
     }
     
   };

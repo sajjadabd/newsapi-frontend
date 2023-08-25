@@ -48,7 +48,8 @@ function Register() {
       window.location.href = '/home';
 
     } catch (error) {
-      //console.error('Registration failed:', error);
+      //console.log('error')
+      console.error('Registration failed:', error);
     }
     
 
