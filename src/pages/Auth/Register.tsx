@@ -47,7 +47,7 @@ function Register() {
       localStorage.setItem('access_token', access_token);
 
       // Redirect the user to the home page or another appropriate page
-      //window.location.href = '/';
+      window.location.href = '/';
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
