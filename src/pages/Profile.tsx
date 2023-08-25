@@ -83,7 +83,7 @@ export default function Profile () {
             />
           </Form.Item>
           <Form.Item {...tailLayout}>
-            <Button type="primary" >Submit</Button>
+            <Button type="primary" >Save Changes</Button>
           </Form.Item>
         </Form>
       </>
