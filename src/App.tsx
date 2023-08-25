@@ -29,7 +29,7 @@ import { Loader, Spinner } from './components/Loader/Loader';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
-
+  const [username , setUsername] = useState("");
   // const location = useLocation();
   // const currentPath = location.pathname;
   // console.table({currentPath});
@@ -41,7 +41,9 @@ function App() {
       axios
         .post( validateTokenURL , { access_token })
         .then(response => {
-          setIsUserAuthenticated(response.data.valid);
+          const { valid , user } = response.data;
+          setUsername(user.username);
+          setIsUserAuthenticated(valid);
           setIsLoading(false); // Done loading
         })
         .catch(error => {
@@ -75,7 +77,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <BrowserRouter>
-        <Layout isUserAuthenticated={isUserAuthenticated} >
+        <Layout username={username} isUserAuthenticated={isUserAuthenticated} >
 
           <Routes>
             <Route path="/" element={<Home />} />

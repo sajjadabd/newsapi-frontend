@@ -7,12 +7,20 @@ import { NavLink } from '../../components/Link/NavLink'
 import { Navigation } from './StyledNavigation';
 import axios from 'axios';
 import { logoutURL } from '../../services/api';
+import { Aside } from './StyledAside';
+import { UsernameWrapper } from './StyledUsername';
+
+
 
 interface Props {
+  username : string ,
   isUserAuthenticated : boolean ,
 }
 
-const Header : React.FC<Props> = ({isUserAuthenticated}) => {
+const Header : React.FC<Props> = ({
+  username ,
+  isUserAuthenticated
+}) => {
 
   const handleLogout = async (e : React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +57,8 @@ const Header : React.FC<Props> = ({isUserAuthenticated}) => {
           )}
         </UL>
         {isUserAuthenticated && (
-        <aside>
+        <Aside>
+          <UsernameWrapper>Hi {username}!</UsernameWrapper>
           <form 
            action="/logout"
            method="post"
@@ -57,7 +66,7 @@ const Header : React.FC<Props> = ({isUserAuthenticated}) => {
            >
             <button>logout</button>
           </form>
-        </aside>
+        </Aside>
         )}
       </Navigation>
       
