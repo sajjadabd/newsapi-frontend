@@ -1,7 +1,16 @@
 import styled from 'styled-components'
 
-const LayoutWrapper = styled.div`
-  margin : 1em;
+export const LayoutWrapper = styled.div`
+  padding : 1em;
+  flex : 1;
+  flex-direction : column;
+  
 `
 
-export default LayoutWrapper;
+export const Wrapper = styled.div`
+  display : flex;
+  flex : 1;
+  flex-direction : column;
+  box-sizing : border-box;
+  height : 100vh;
+`

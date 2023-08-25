@@ -1,9 +1,6 @@
-
-
+import './App.css';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
 
 import Home from './pages/Home';
 import Profile from './pages/Profile';
@@ -16,8 +13,48 @@ import GlobalStyles from './styles/GlobalStyles';
 import theme from './styles/Theme';
 import Layout from './components/Layout/Layout';
 
+import axios from 'axios';
+
+import { validateTokenURL } from './services/api';
+
+import { redirect } from "react-router-dom";
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+
+
+  useEffect(() => {
+    const access_token = localStorage.getItem('access_token');
+
+    if (access_token) {
+      axios
+        .post( validateTokenURL , { access_token })
+        .then(response => {
+          setIsUserAuthenticated(response.data.valid);
+          setIsLoading(false); // Done loading
+        })
+        .catch(error => {
+          console.error('Token validation error:', error);
+          setIsUserAuthenticated(false);
+          setIsLoading(false); // Done loading
+        });
+    } else {
+      setIsLoading(false); // Done loading
+    }
+  }, []);
+
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+
+  if (!isUserAuthenticated) {
+    return redirect("/register");
+  }
+
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />

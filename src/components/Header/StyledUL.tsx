@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-export const Navigation = styled.nav`
+export const UL = styled.ul`
   background-color: ${({ theme }) => theme.footerColor};
   color: white;
+  padding: 0;
+  margin : 0;
   display : flex;
-  justify-content : space-between;
-  align-items : center;
-  padding : 1em 2em;
+  list-style-type : none;
 `;
