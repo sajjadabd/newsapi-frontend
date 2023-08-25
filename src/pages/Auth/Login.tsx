@@ -5,6 +5,7 @@ import Form from '../../components/Form/Form';
 import Input from '../../components/Form/Input';
 import Button from '../../components/Form/Button';
 import { StyledForm } from '../../components/Form/StyledForm';
+import { loginRequestURL } from '../../services/api';
 
 
 
@@ -28,22 +29,27 @@ function Login() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    console.log('registered...');
-    // Simulate a successful registration
-    /*
+    console.log('login...');
+
     try {
-      const response = await axios.post('/api/register', { 
+
+      const response = await axios.post( loginRequestURL , { 
         email : formData.email, 
         password : formData.password,
-      })
-      // Handle success (e.g., redirect to login page)
+      });
+
+      const { access_token } = response.data;
+
+      localStorage.setItem('access_token', access_token);
+
+      // Redirect the user to the home page or another appropriate page
+      window.location.href = '/home'; 
+
     } catch (error) {
+      console.log('error')
       //console.error('Registration failed:', error);
     }
-    */
-    //const accessToken = 'sample_access_token';
-    //localStorage.setItem('access_token', accessToken);
-
+    
   };
 
   return (
@@ -74,7 +80,7 @@ function Login() {
               onChange={handleInputChange}
             />
 
-            <Button type="submit">Register</Button>
+            <Button type="submit">Login</Button>
         </StyledForm>
 
         <p>Don't have an account? <Link to="/register">Register</Link></p>

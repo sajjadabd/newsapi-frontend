@@ -4,6 +4,7 @@ import axios from 'axios';
 import {StyledForm} from '../../components/Form/StyledForm';
 import Input from '../../components/Form/Input';
 import Button from '../../components/Form/Button';
+import { registerRequestURL } from '../../services/api';
 
 
 
@@ -31,20 +32,25 @@ function Register() {
 
     console.log('registered...');
     // Simulate a successful registration
-    /*
+    
     try {
-      const response = await axios.post('/api/register', { 
+      const response = await axios.post( registerRequestURL , { 
         username : formData.username,
         email : formData.email, 
         password : formData.password,
       })
-      // Handle success (e.g., redirect to login page)
+
+      const { access_token } = response.data;
+
+      localStorage.setItem('access_token', access_token);
+
+      // Redirect the user to the home page or another appropriate page
+      window.location.href = '/home';
+
     } catch (error) {
       //console.error('Registration failed:', error);
     }
-    */
-    //const accessToken = 'sample_access_token';
-    //localStorage.setItem('access_token', accessToken);
+    
 
   };
 
