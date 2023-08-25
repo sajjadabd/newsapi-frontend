@@ -1,6 +1,7 @@
 import { Select, Space } from 'antd';
 import type { SelectProps } from 'antd';
 import { Button, Form, Input, Radio } from 'antd';
+import { Divider } from 'antd';
 
 const options: SelectProps['options'] = [];
 type LayoutType = Parameters<typeof Form>[0]['layout'];
@@ -30,7 +31,9 @@ const handleChange = (value: string[]) => {
 export default function Profile () {
     return (
       <>
-        <div>Profile</div>
+        {/* <div>Profile</div> */}
+        <Divider orientation="left">Profile Settings</Divider>
+
         <Form
         {...layout}
         style={{ maxWidth: 600 }}
