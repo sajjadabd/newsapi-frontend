@@ -14,7 +14,7 @@ export const ContentLoader = styled.div`
   display : flex;
   justify-content : center;
   align-items : center;
-  height : 100%;
+  height : 80%;
   box-sizing : border-box;
 `
 

@@ -146,9 +146,12 @@ export default function Profile () {
     
 
     if(loading) {
-      return <ContentLoader>
-        <Spinner></Spinner>
-      </ContentLoader>;
+      return <>
+        <Divider orientation="left">Profile Settings</Divider>
+        <ContentLoader>
+          <Spinner></Spinner>
+        </ContentLoader>
+      </>;
     }
     
 

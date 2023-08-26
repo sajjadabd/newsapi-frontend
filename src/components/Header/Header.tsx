@@ -10,7 +10,7 @@ import { logoutURL } from '../../services/api';
 import { Aside } from './StyledAside';
 import { UsernameWrapper } from './StyledUsername';
 
-
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   username : string ,
@@ -21,6 +21,8 @@ const Header : React.FC<Props> = ({
   username ,
   isUserAuthenticated
 }) => {
+
+  const location = useLocation();
 
   const handleLogout = async (e : React.FormEvent) => {
     e.preventDefault();
@@ -45,8 +47,12 @@ const Header : React.FC<Props> = ({
         <UL>
           {isUserAuthenticated && (
             <>
-            <NavItem><NavLink to="/">Home</NavLink></NavItem>
-            <NavItem><NavLink to="/profile">Profile</NavLink></NavItem>
+            <NavItem className={location.pathname === '/' ? 'active' : ''}>
+              <NavLink to="/">Home</NavLink>
+            </NavItem>
+            <NavItem className={location.pathname === '/profile' ? 'active' : ''}>
+              <NavLink to="/profile">Profile</NavLink>
+            </NavItem>
             </>
           )}
           {!isUserAuthenticated && (

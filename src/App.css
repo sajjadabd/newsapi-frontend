@@ -3,3 +3,13 @@ html , body {
   height : 100vh;
   box-sizing: border-box;
 }
+
+
+.active {
+  text-shadow:
+    0px 0px 11px white,
+    0 0 2em white,
+    0 0 2em white;
+  color: white;
+  font:Georgia, serif;
+}
