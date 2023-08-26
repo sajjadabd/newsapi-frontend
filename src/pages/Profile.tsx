@@ -1,7 +1,10 @@
+import React, { useState, useEffect } from 'react';
 import { Select, Space } from 'antd';
 import type { SelectProps } from 'antd';
 import { Button, Form, Input, Radio } from 'antd';
 import { Divider } from 'antd';
+import axios, {isCancel, AxiosError} from 'axios';
+import { getUserPrefrencesURL } from '../services/api';
 
 const options: SelectProps['options'] = [];
 type LayoutType = Parameters<typeof Form>[0]['layout'];
@@ -28,7 +31,54 @@ const handleChange = (value: string[]) => {
   console.log(`selected ${value}`);
 };
 
+
+interface SourceType {
+  id : string ,
+  slug : string ,
+  title : string ,
+  description : string ,
+}
+
+interface CategoryType {
+  title : string 
+}
+
+
+
 export default function Profile () {
+
+
+    //const [preferences, setPreferences] = useState([]);
+    const [sources, setSources] = useState([]);
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        // Fetch user preferences when the component mounts
+        const access_token = localStorage.getItem('access_token');
+
+        axios.post( getUserPrefrencesURL , null, {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        })
+        .then( response => {
+            console.log(response.data);
+            const { sources , categories } = response.data;
+            setSources(sources.map((item : SourceType) => item.title));
+            setCategories(categories.map((item : CategoryType) => item.title));
+        })
+        .catch(AxiosError => {
+          console.error('getPrefrences failed:', AxiosError.response?.request.response);
+        })
+        .catch(error => {
+          console.error('getPrefrences failed:', error);
+        });
+      
+
+
+    }, []);
+  
+
     return (
       <>
         {/* <div>Profile</div> */}
@@ -44,9 +94,9 @@ export default function Profile () {
               allowClear
               style={{ width: '100%' }}
               placeholder="Please select"
-              defaultValue={['a10', 'c12']}
+              //defaultValue={['a10', 'c12']}
               onChange={handleChange}
-              options={options}
+              options={sources.map(source => ({ label: source, value: source }))}
             />
           </Form.Item>
           <Form.Item label="Categories">
@@ -55,12 +105,12 @@ export default function Profile () {
               allowClear
               style={{ width: '100%' }}
               placeholder="Please select"
-              defaultValue={['a10', 'c12']}
+              //defaultValue={['a10', 'c12']}
               onChange={handleChange}
-              options={options}
+              options={categories.map(category => ({ label: category, value: category }))}
             />
           </Form.Item>
-          <Form.Item label="Countries">
+          {/* <Form.Item label="Countries">
             <Select
               mode="multiple"
               allowClear
@@ -81,7 +131,7 @@ export default function Profile () {
               onChange={handleChange}
               options={options}
             />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item {...tailLayout}>
             <Button type="primary" >Save Changes</Button>
           </Form.Item>
