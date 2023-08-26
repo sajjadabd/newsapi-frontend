@@ -113,8 +113,8 @@ export default function Profile () {
             } = response.data;
             setSources(sources);
             setCategories(categories);
-            setUserSources(user_sources.map((item : SourceType) => item.title));
-            setUserCategories(user_categories.map((item : CategoryType) => item.title));
+            setUserSources(user_sources.map((item : SourceType) => item.id));
+            setUserCategories(user_categories.map((item : CategoryType) => item.id));
 
             //setSources(sources.map((item : SourceType) => item.title));
             //setCategories(categories.map((item : CategoryType) => item.title));
