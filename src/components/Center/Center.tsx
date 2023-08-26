@@ -6,5 +6,5 @@ export const Center = styled.div`
   display : flex;
   flex-direction : column;
   justify-content : center;
-  align-items : flex-start;
+  align-items : center;
 `

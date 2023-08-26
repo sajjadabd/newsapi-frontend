@@ -19,6 +19,8 @@ function Login() {
     password: '',
   });
 
+  const [submitFormLoading , setSubmitFormLoading] = useState(false);
+
 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +33,7 @@ function Login() {
 
   const handleSubmit = async () => {
     //event.preventDefault();
-
+    setSubmitFormLoading(true);
     console.log('login...');
 
     try {
@@ -56,12 +58,14 @@ function Login() {
       } else {
         console.error('Login failed:', error);
       }
+    } finally {
+      setSubmitFormLoading(false);
     }
     
   };
 
   return (
-    <div>
+    <Center>
       <h2>Login Page</h2>
 
       <Space style={{ width: '30%' }} direction="vertical">
@@ -89,11 +93,16 @@ function Login() {
           
 
 
-          <Button style={{ width: '100%' }} onClick={() => handleSubmit()}>Login</Button>
+          <Button 
+          loading={submitFormLoading}
+          style={{ width: '100%' }} 
+          onClick={() => handleSubmit()}>
+            Login
+          </Button>
         </Space>
 
         <p>Don't have an account? <Link to="/register">Register</Link></p>
-      </div>
+      </Center>
   );
 }
 

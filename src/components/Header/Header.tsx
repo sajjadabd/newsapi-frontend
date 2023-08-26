@@ -12,10 +12,25 @@ import { UsernameWrapper } from './StyledUsername';
 
 import { useLocation } from 'react-router-dom';
 
+import { DownOutlined, UserOutlined , PoweroffOutlined } from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Button, Dropdown, message, Space, Tooltip } from 'antd';
+
 interface Props {
   username : string ,
   isUserAuthenticated : boolean ,
 }
+
+
+const items: MenuProps['items'] = [
+  {
+    label: <div style={{ color: 'red' }}>logout</div>,
+    key: '1',
+    icon: <PoweroffOutlined style={{ color: 'red' }} />,
+  }
+];
+
+
 
 const Header : React.FC<Props> = ({
   username ,
@@ -24,8 +39,8 @@ const Header : React.FC<Props> = ({
 
   const location = useLocation();
 
-  const handleLogout = async (e : React.FormEvent) => {
-    e.preventDefault();
+  const handleLogout = async () => { // (e : React.FormEvent) => {
+    //e.preventDefault();
     try {
       const access_token = localStorage.getItem('access_token'); // Retrieve access token from local storage
       await axios.post( logoutURL , null, {
@@ -39,6 +54,11 @@ const Header : React.FC<Props> = ({
     } catch (error) {
       console.error('Logout failed:', error);
     }
+  };
+
+  const menuProps = {
+    items,
+    onClick: handleLogout,
   };
 
 	return (
@@ -63,16 +83,21 @@ const Header : React.FC<Props> = ({
           )}
         </UL>
         {isUserAuthenticated && (
-        <Aside>
-          <UsernameWrapper>Hi {username}!</UsernameWrapper>
-          <form 
-           action="/logout"
-           method="post"
-           onSubmit={(e) => handleLogout(e)}
-           >
-            <button>logout</button>
-          </form>
-        </Aside>
+          <Aside>
+            <Dropdown.Button menu={menuProps} placement="bottom" icon={<UserOutlined />}>
+            Hi {username}
+            </Dropdown.Button>
+          </Aside>
+        // <Aside>
+        //   <UsernameWrapper>Hi {username}!</UsernameWrapper>
+        //   <form 
+        //    action="/logout"
+        //    method="post"
+        //    onSubmit={(e) => handleLogout(e)}
+        //    >
+        //     <button>logout</button>
+        //   </form>
+        // </Aside>
         )}
       </Navigation>
       

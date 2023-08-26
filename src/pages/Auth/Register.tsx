@@ -19,6 +19,7 @@ function Register() {
     email : '',
     password: '',
   });
+  const [submitFormLoading , setSubmitFormLoading] = useState(false);
 
 
 
@@ -32,7 +33,7 @@ function Register() {
 
   const handleSubmit = async () => {
     //event.preventDefault();
-
+    setSubmitFormLoading(true);
     console.log('registered...');
     // Simulate a successful registration
     
@@ -58,6 +59,8 @@ function Register() {
       } else {
         console.error('Registration failed:', error);
       }
+    } finally {
+      setSubmitFormLoading(false);
     }
     
 
@@ -108,7 +111,12 @@ function Register() {
           
 
 
-          <Button style={{ width: '100%' }} onClick={() => handleSubmit()}>Register</Button>
+          <Button 
+          loading={submitFormLoading}
+          style={{ width: '100%' }} 
+          onClick={() => handleSubmit()}>
+            Register
+          </Button>
         </Space>
 
       <p>Already have an account? <Link to="/login">Login</Link></p>
