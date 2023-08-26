@@ -5,6 +5,7 @@ import { getUserArticles } from '../services/api';
 
 import { Badge, Card, Skeleton , Col, Row } from 'antd';
 import { ContentLoader, Spinner } from '../components/Loader/Loader';
+import NewsFeedLoader from '../components/Loader/NewsFeedLoader';
 
 const { Meta } = Card;
 
@@ -19,7 +20,7 @@ interface ArticleType {
 export default function Home () {
   const [articles, setArticles] = useState<ArticleType[]>([]);
   const [loading, setLoading] = useState(true); // Add loading state
-  const skeletons = [...Array(16).keys()].map(i => i + 1);
+  
 
   useEffect(() => {
     // Fetch user preferences and articles when the component mounts
@@ -52,26 +53,7 @@ export default function Home () {
   
   
   if(loading) {
-    return <>
-      <Divider orientation="left">News Feed</Divider>
-      
-      <Row gutter={16}>
-        {skeletons.map( () => 
-          <Col span={8}>
-          <Skeleton 
-          style={{ padding : '10px' , margin : '10px' }}
-          loading={loading} 
-          active
-          >
-            <Meta
-              title="Card title"
-              description="This is the description"
-            />
-          </Skeleton>
-          </Col>
-        )}
-      </Row>
-    </>
+    return <NewsFeedLoader loading={loading} />
   }
   
 
