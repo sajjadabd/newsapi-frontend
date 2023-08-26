@@ -7,7 +7,8 @@ import { getUserArticles } from '../services/api';
 interface ArticleType {
   id : number ,
   title : string ,
-  content : string ,
+  description : string ,
+  source : string ,
 }
 
 export default function Home () {
@@ -53,13 +54,14 @@ export default function Home () {
   return (
     <>
       {/* <div>Home</div> */}
-      <Divider orientation="left">Home</Divider>
+      <Divider orientation="left">News Feed</Divider>
 
       <ul>
         {articles.map(article => (
           <li key={article.id}>
             <h2>{article.title}</h2>
-            <p>{article.content}</p>
+            <div>{article.source}</div>
+            <p>{article.description}</p>
           </li>
         ))}
       </ul>
