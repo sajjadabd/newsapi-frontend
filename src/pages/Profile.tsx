@@ -5,7 +5,7 @@ import { Button, Form, Input, Radio } from 'antd';
 import { Divider } from 'antd';
 import axios, {isCancel, AxiosError} from 'axios';
 import { getUserPrefrencesURL } from '../services/api';
-import { Loader, Spinner } from '../components/Loader/Loader';
+import { ContentLoader, Loader, Spinner } from '../components/Loader/Loader';
 
 
 
@@ -53,7 +53,7 @@ export default function Profile () {
     const [categories, setCategories] = useState([]);
     const [userSources, setUserSources] = useState<string[]>([]);
     const [userCategories, setUserCategories] = useState<string[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     const [formSubmitLoading , setFormSubmitLoading] = useState(false);
 
@@ -133,20 +133,22 @@ export default function Profile () {
           console.error('getPrefrences failed:', error);
         })
         .finally(() => {
-          setIsLoading(false); // Done loading
+          setLoading(false); // Done loading
         });
       
 
         return () => {
           // cleanup
         };
-        
+
 
     }, []);
     
 
-    if (isLoading) {
-      return 'loading...';
+    if(loading) {
+      return <ContentLoader>
+        <Spinner></Spinner>
+      </ContentLoader>;
     }
     
 

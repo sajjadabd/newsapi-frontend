@@ -7,7 +7,15 @@ export const Loader = styled.div`
   align-items : center;
   height : 100vh;
   box-sizing : border-box;
+`
 
+export const ContentLoader = styled.div`
+  margin : 0;
+  display : flex;
+  justify-content : center;
+  align-items : center;
+  height : 100%;
+  box-sizing : border-box;
 `
 
 
