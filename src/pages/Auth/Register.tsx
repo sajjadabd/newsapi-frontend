@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {StyledForm} from '../../components/Form/StyledForm';
-import Input from '../../components/Form/Input';
-import Button from '../../components/Form/Button';
+// import Input from '../../components/Form/Input';
+// import Button from '../../components/Form/Button';
 import { registerRequestURL } from '../../services/api';
 
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { Button, Input, Space } from 'antd';
+import { Center } from '../../components/Center/Center';
 
 
 
@@ -27,8 +30,8 @@ function Register() {
     }));
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
+    //event.preventDefault();
 
     console.log('registered...');
     // Simulate a successful registration
@@ -62,10 +65,10 @@ function Register() {
 
   return (
 
-
-    <div>
+    
+    <Center>
       <h2>Registration Page</h2>
-      <StyledForm onSubmit={handleSubmit}>
+      <Space style={{ width: '30%' }} direction="vertical">
 
           {/* <label htmlFor="username">Username</label> */}
 
@@ -94,20 +97,22 @@ function Register() {
 
           {/* <label htmlFor="password">Password</label> */}
 
-          <Input
-            type="password"
-            id="password"
-            name="password"
+          
+          <Input.Password
             placeholder="password"
-            value={formData.password}
+            name="password"
             onChange={handleInputChange}
+            value={formData.password}
+            iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
           />
+          
 
-          <Button type="submit">Register</Button>
-      </StyledForm>
+
+          <Button style={{ width: '100%' }} onClick={() => handleSubmit()}>Register</Button>
+        </Space>
 
       <p>Already have an account? <Link to="/login">Login</Link></p>
-    </div>
+    </Center>
 
 
   );

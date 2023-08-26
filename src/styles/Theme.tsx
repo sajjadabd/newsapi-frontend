@@ -1,7 +1,7 @@
 const theme = {
   primaryColor: '#007bff',
   secondaryColor: '#6c757d',
-  footerColor : 'gray',
+  footerColor : '#0d1b2a',
   fontFamily: 'Arial, sans-serif',
   // ... other theme variables
 };

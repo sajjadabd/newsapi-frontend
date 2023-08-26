@@ -55,6 +55,8 @@ export default function Profile () {
     const [userCategories, setUserCategories] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    const [formSubmitLoading , setFormSubmitLoading] = useState(false);
+
     
     const handleSourcesChange = (value: string[]) => {
       console.log(`selected ${value}`);
@@ -69,6 +71,8 @@ export default function Profile () {
 
 
     const handleSubmit = () => {
+      setFormSubmitLoading(true);
+
       console.log(`userSources : ` , userSources);
       console.log(`userCategories : ` , userCategories);
 
@@ -88,7 +92,10 @@ export default function Profile () {
       })
       .catch(error => {
         console.error('updatePrefrences failed:', error);
-      });;
+      })
+      .finally( () => {
+        setFormSubmitLoading(false);
+      });
 
       
     }
@@ -130,6 +137,10 @@ export default function Profile () {
         });
       
 
+        return () => {
+          // cleanup
+        };
+        
 
     }, []);
     
@@ -195,7 +206,13 @@ export default function Profile () {
             />
           </Form.Item> */}
           <Form.Item {...tailLayout}>
-            <Button type="primary" onClick={() => handleSubmit()}>Save Changes</Button>
+            <Button 
+            type="primary" 
+            loading={formSubmitLoading}
+            onClick={() => handleSubmit()}
+            >
+              Save Changes
+            </Button>
           </Form.Item>
         </Form>
       </>
