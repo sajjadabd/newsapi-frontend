@@ -3,8 +3,10 @@ import { Divider } from 'antd';
 import axios from 'axios';
 import { getUserArticles } from '../services/api';
 
-import { Badge, Card, Col, Row } from 'antd';
+import { Badge, Card, Skeleton , Col, Row } from 'antd';
 import { ContentLoader, Spinner } from '../components/Loader/Loader';
+
+const { Meta } = Card;
 
 
 interface ArticleType {
@@ -17,6 +19,7 @@ interface ArticleType {
 export default function Home () {
   const [articles, setArticles] = useState<ArticleType[]>([]);
   const [loading, setLoading] = useState(true); // Add loading state
+  const skeletons = [...Array(16).keys()].map(i => i + 1);
 
   useEffect(() => {
     // Fetch user preferences and articles when the component mounts
@@ -46,14 +49,31 @@ export default function Home () {
     };
 
   }, []);
-
-
-
+  
+  
   if(loading) {
-    return <ContentLoader>
-      <Spinner></Spinner>
-    </ContentLoader>;
+    return <>
+      <Divider orientation="left">News Feed</Divider>
+      
+      <Row gutter={16}>
+        {skeletons.map( () => 
+          <Col span={8}>
+          <Skeleton 
+          style={{ padding : '10px' , margin : '10px' }}
+          loading={loading} 
+          active
+          >
+            <Meta
+              title="Card title"
+              description="This is the description"
+            />
+          </Skeleton>
+          </Col>
+        )}
+      </Row>
+    </>
   }
+  
 
 
   return (
@@ -62,16 +82,18 @@ export default function Home () {
       <Divider orientation="left">News Feed</Divider>
 
 
-
       <Row gutter={16}>
         {articles.map( article => (
         
         <Col span={8}>
-          <Badge.Ribbon text={article.source} color="gray">
-          <Card style={{paddingTop : '20px'}} title={article.title} bordered={true}>
+          <Card 
+          loading={loading}
+          style={{ padding : '10px' , margin : '10px' }}
+          title={article.title}
+          // bordered={true}
+          >
             {article.description}
           </Card>
-          </Badge.Ribbon>
         </Col>
         
         ))}
