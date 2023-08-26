@@ -5,6 +5,9 @@ import { Button, Form, Input, Radio } from 'antd';
 import { Divider } from 'antd';
 import axios, {isCancel, AxiosError} from 'axios';
 import { getUserPrefrencesURL } from '../services/api';
+import { Loader, Spinner } from '../components/Loader/Loader';
+
+
 
 const options: SelectProps['options'] = [];
 type LayoutType = Parameters<typeof Form>[0]['layout'];
@@ -27,19 +30,16 @@ const tailLayout = {
 };
 
 
-const handleChange = (value: string[]) => {
-  console.log(`selected ${value}`);
-};
-
 
 interface SourceType {
-  id : string ,
+  id : number ,
   slug : string ,
   title : string ,
   description : string ,
 }
 
 interface CategoryType {
+  id : number ,
   title : string 
 }
 
@@ -51,6 +51,48 @@ export default function Profile () {
     //const [preferences, setPreferences] = useState([]);
     const [sources, setSources] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [userSources, setUserSources] = useState<string[]>([]);
+    const [userCategories, setUserCategories] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    
+    const handleSourcesChange = (value: string[]) => {
+      console.log(`selected ${value}`);
+      setUserSources(value);
+    };
+
+
+    const handleCategoriesChange = (value: string[]) => {
+      console.log(`selected ${value}`);
+      setUserCategories(value);
+    };
+
+
+    const handleSubmit = () => {
+      console.log(`userSources : ` , userSources);
+      console.log(`userCategories : ` , userCategories);
+
+      const access_token = localStorage.getItem('access_token');
+
+      axios.put( getUserPrefrencesURL , {
+        sources : userSources ,
+        categories : userCategories ,
+      } , {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }).then( response => { 
+        console.log(response.data);
+      }).catch(AxiosError => {
+        console.error('updatePrefrences failed:', AxiosError.response?.request.response);
+      })
+      .catch(error => {
+        console.error('updatePrefrences failed:', error);
+      });;
+
+      
+    }
+
 
     useEffect(() => {
         // Fetch user preferences when the component mounts
@@ -63,9 +105,17 @@ export default function Profile () {
         })
         .then( response => {
             console.log(response.data);
-            const { sources , categories } = response.data;
+            const { 
+              sources , 
+              categories , 
+              user_sources , 
+              user_categories 
+            } = response.data;
             setSources(sources);
             setCategories(categories);
+            setUserSources(user_sources.map((item : SourceType) => item.title));
+            setUserCategories(user_categories.map((item : CategoryType) => item.title));
+
             //setSources(sources.map((item : SourceType) => item.title));
             //setCategories(categories.map((item : CategoryType) => item.title));
         })
@@ -74,12 +124,20 @@ export default function Profile () {
         })
         .catch(error => {
           console.error('getPrefrences failed:', error);
+        })
+        .finally(() => {
+          setIsLoading(false); // Done loading
         });
       
 
 
     }, []);
-  
+    
+
+    if (isLoading) {
+      return 'loading...';
+    }
+    
 
     return (
       <>
@@ -97,7 +155,8 @@ export default function Profile () {
               style={{ width: '100%' }}
               placeholder="Please select"
               //defaultValue={['a10', 'c12']}
-              onChange={handleChange}
+              defaultValue={userSources}
+              onChange={handleSourcesChange}
               options={sources.map((source : SourceType) => ({ label: source.title, value: source.id }))}
             />
           </Form.Item>
@@ -108,7 +167,8 @@ export default function Profile () {
               style={{ width: '100%' }}
               placeholder="Please select"
               //defaultValue={['a10', 'c12']}
-              onChange={handleChange}
+              defaultValue={userCategories}
+              onChange={handleCategoriesChange}
               options={categories.map((category : CategoryType) => ({ label: category.title, value: category.id }))}
             />
           </Form.Item>
@@ -135,7 +195,7 @@ export default function Profile () {
             />
           </Form.Item> */}
           <Form.Item {...tailLayout}>
-            <Button type="primary" >Save Changes</Button>
+            <Button type="primary" onClick={() => handleSubmit()}>Save Changes</Button>
           </Form.Item>
         </Form>
       </>
