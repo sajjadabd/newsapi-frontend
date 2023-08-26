@@ -64,18 +64,28 @@ export default function Home () {
       <Divider orientation="left">News Feed</Divider>
 
 
-      <Row gutter={16}>
+      <Row 
+      style={{ display : 'flex' , justifyContent : 'center' }} 
+      gutter={30}
+      >
         {articles.map( article => (
         
-        <Col span={8}>
+        <Col style={{ margin : '10px' }} 
+        xs={{ span : 24 }} 
+        sm={{ span : 20 }}
+        md={{ span : 11 }}
+        lg={{ span : 7  }}
+        >
+          <Badge.Ribbon  text={article.source} color="#6c757d">
           <Card 
           loading={loading}
-          style={{ padding : '10px' , margin : '10px' }}
+          style={{ paddingTop : '20px' }}
           title={article.title}
           // bordered={true}
           >
             {article.description}
           </Card>
+          </Badge.Ribbon>
         </Col>
         
         ))}
