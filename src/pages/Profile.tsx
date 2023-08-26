@@ -64,8 +64,10 @@ export default function Profile () {
         .then( response => {
             console.log(response.data);
             const { sources , categories } = response.data;
-            setSources(sources.map((item : SourceType) => item.title));
-            setCategories(categories.map((item : CategoryType) => item.title));
+            setSources(sources);
+            setCategories(categories);
+            //setSources(sources.map((item : SourceType) => item.title));
+            //setCategories(categories.map((item : CategoryType) => item.title));
         })
         .catch(AxiosError => {
           console.error('getPrefrences failed:', AxiosError.response?.request.response);
@@ -96,7 +98,7 @@ export default function Profile () {
               placeholder="Please select"
               //defaultValue={['a10', 'c12']}
               onChange={handleChange}
-              options={sources.map(source => ({ label: source, value: source }))}
+              options={sources.map((source : SourceType) => ({ label: source.title, value: source.id }))}
             />
           </Form.Item>
           <Form.Item label="Categories">
@@ -107,7 +109,7 @@ export default function Profile () {
               placeholder="Please select"
               //defaultValue={['a10', 'c12']}
               onChange={handleChange}
-              options={categories.map(category => ({ label: category, value: category }))}
+              options={categories.map((category : CategoryType) => ({ label: category.title, value: category.id }))}
             />
           </Form.Item>
           {/* <Form.Item label="Countries">
