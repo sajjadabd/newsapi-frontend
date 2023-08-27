@@ -11,6 +11,7 @@ import Profile from './pages/Profile';
 
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
+import NotFound from './pages/NotFound/NotFound';
 
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './styles/GlobalStyles';
@@ -22,6 +23,7 @@ import axios from 'axios';
 import { validateTokenURL } from './services/api';
 
 import { Loader, Spinner } from './components/Loader/Loader';
+
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -79,10 +81,12 @@ function App() {
         <Layout username={username} isUserAuthenticated={isUserAuthenticated} >
 
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/"  element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register"  element={<Register />} />
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
 
         </Layout>
