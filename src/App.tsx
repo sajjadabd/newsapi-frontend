@@ -39,7 +39,11 @@ function App() {
 
     if (access_token != null) {
       axios
-        .post( validateTokenURL , { access_token })
+        .post( validateTokenURL , null, {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        })
         .then(response => {
           const { valid , user } = response.data;
           setUsername(user.username);

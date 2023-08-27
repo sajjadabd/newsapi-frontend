@@ -6,7 +6,7 @@ import { Divider } from 'antd';
 import axios, {isCancel, AxiosError} from 'axios';
 import { getUserPrefrencesURL } from '../services/api';
 import { ContentLoader, Loader, Spinner } from '../components/Loader/Loader';
-
+import { Col, Row } from 'antd';
 
 
 const options: SelectProps['options'] = [];
@@ -54,8 +54,8 @@ export default function Profile () {
     const [userSources, setUserSources] = useState<string[]>([]);
     const [userCategories, setUserCategories] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
-
     const [formSubmitLoading , setFormSubmitLoading] = useState(false);
+
 
     
     const handleSourcesChange = (value: string[]) => {
@@ -135,6 +135,8 @@ export default function Profile () {
         .finally(() => {
           setLoading(false); // Done loading
         });
+
+
       
 
         return () => {
@@ -210,14 +212,19 @@ export default function Profile () {
               options={options}
             />
           </Form.Item> */}
-          <Form.Item {...tailLayout}>
-            <Button 
-            type="primary" 
-            loading={formSubmitLoading}
-            onClick={() => handleSubmit()}
-            >
-              Save Changes
-            </Button>
+
+          
+          <Form.Item>
+            <Row gutter={16}>
+              <Col xs={{ span : 0 }} sm={{ span : 6 }} ></Col>
+              <Button 
+              type="primary" 
+              loading={formSubmitLoading}
+              onClick={() => handleSubmit()}
+              >
+                Save Changes
+              </Button>
+            </Row>
           </Form.Item>
         </Form>
       </>
