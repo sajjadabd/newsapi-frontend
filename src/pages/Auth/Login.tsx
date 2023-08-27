@@ -1,17 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Form from '../../components/Form/Form';
-// import Input from '../../components/Form/Input';
-// import Button from '../../components/Form/Button';
-import { StyledForm } from '../../components/Form/StyledForm';
 import { loginRequestURL } from '../../services/api';
-
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Input, Space } from 'antd';
 import { Center } from '../../components/Center/Center';
-import { Col, Row } from 'antd';
-
 import { Typography } from 'antd';
 
 const { Text } = Typography;
@@ -36,7 +29,6 @@ function Login() {
   };
 
   const handleSubmit = async () => {
-    //event.preventDefault();
     setSubmitFormLoading(true);
     console.log('login...');
 
@@ -49,11 +41,8 @@ function Login() {
 
       const { access_token } = response.data;
 
-      //console.table({access_token})
-
       localStorage.setItem('access_token', access_token);
 
-      // Redirect the user to the home page or another appropriate page
       window.location.href = '/'; 
 
     } catch (error) {
@@ -74,8 +63,6 @@ function Login() {
 
       <Space direction="vertical">
 
-            {/* <label htmlFor="email">Email</label> */}
-
             <Input
               type="email"
               id="email"
@@ -84,8 +71,6 @@ function Login() {
               value={formData.email}
               onChange={handleInputChange}
             />
-
-            {/* <label htmlFor="password">Password</label> */}
 
             <Input.Password
               placeholder="password"
@@ -97,12 +82,14 @@ function Login() {
           
 
 
-          <Button 
-          loading={submitFormLoading}
-          style={{ width: '100%' }} 
-          onClick={() => handleSubmit()}>
-            Login
-          </Button>
+            <Button 
+            loading={submitFormLoading}
+            style={{ width: '100%' }} 
+            onClick={() => handleSubmit()}>
+              Login
+            </Button>
+
+            
         </Space>
 
 
