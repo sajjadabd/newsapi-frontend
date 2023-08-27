@@ -5,7 +5,7 @@ import { Wrapper, LayoutWrapper } from "./LayoutWrapper";
 interface Props {
   username : string,
   isUserAuthenticated : boolean ,
-  children: React.ReactNode; // Specify the type for the 'children' prop
+  children: React.ReactNode;
 }
 
 const Layout : React.FC<Props> = ({

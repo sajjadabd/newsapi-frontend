@@ -5,7 +5,6 @@ const GlobalStyles = createGlobalStyle`
     font-family: ${({ theme }) => theme.fontFamily};
     margin: 0;
     padding: 0;
-    /* Add more global styles */
   }
 `;
 

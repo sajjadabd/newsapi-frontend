@@ -42,8 +42,6 @@ interface CategoryType {
 
 export default function Profile () {
 
-
-    //const [preferences, setPreferences] = useState([]);
     const [sources, setSources] = useState([]);
     const [categories, setCategories] = useState([]);
     const [userSources, setUserSources] = useState<string[]>([]);
@@ -97,7 +95,6 @@ export default function Profile () {
 
 
     useEffect(() => {
-        // Fetch user preferences when the component mounts
         const access_token = localStorage.getItem('access_token');
 
         axios.post( getUserPrefrencesURL , null, {
@@ -125,7 +122,7 @@ export default function Profile () {
           console.error('getPrefrences failed:', error);
         })
         .finally(() => {
-          setLoading(false); // Done loading
+          setLoading(false); 
         });
 
 
