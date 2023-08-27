@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Select, Space } from 'antd';
+import { useState, useEffect } from 'react';
+import { Select } from 'antd';
 import type { SelectProps } from 'antd';
-import { Button, Form, Input, Radio } from 'antd';
+import { Button, Form } from 'antd';
 import { Divider } from 'antd';
-import axios, {isCancel, AxiosError} from 'axios';
+import axios from 'axios';
 import { getUserPrefrencesURL } from '../services/api';
-import { ContentLoader, Loader, Spinner } from '../components/Loader/Loader';
+import { ContentLoader, Spinner } from '../components/Loader/Loader';
 import { Col, Row } from 'antd';
 
 
 const options: SelectProps['options'] = [];
-type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 for (let i = 10; i < 36; i++) {
   options.push({
@@ -23,10 +22,6 @@ for (let i = 10; i < 36; i++) {
 const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 16 },
-};
-
-const tailLayout = {
-  wrapperCol: { offset: 4, span: 16 },
 };
 
 
@@ -111,7 +106,6 @@ export default function Profile () {
           },
         })
         .then( response => {
-            console.log(response.data);
             const { 
               sources , 
               categories , 
@@ -123,8 +117,6 @@ export default function Profile () {
             setUserSources(user_sources.map((item : SourceType) => item.id));
             setUserCategories(user_categories.map((item : CategoryType) => item.id));
 
-            //setSources(sources.map((item : SourceType) => item.title));
-            //setCategories(categories.map((item : CategoryType) => item.title));
         })
         .catch(AxiosError => {
           console.error('getPrefrences failed:', AxiosError.response?.request.response);
@@ -159,7 +151,6 @@ export default function Profile () {
 
     return (
       <>
-        {/* <div>Profile</div> */}
         <Divider orientation="left">Profile Settings</Divider>
 
         <Form
@@ -172,7 +163,6 @@ export default function Profile () {
               allowClear
               style={{ width: '100%' }}
               placeholder="Please select"
-              //defaultValue={['a10', 'c12']}
               defaultValue={userSources}
               onChange={handleSourcesChange}
               options={sources.map((source : SourceType) => ({ label: source.title, value: source.id }))}
@@ -184,35 +174,11 @@ export default function Profile () {
               allowClear
               style={{ width: '100%' }}
               placeholder="Please select"
-              //defaultValue={['a10', 'c12']}
               defaultValue={userCategories}
               onChange={handleCategoriesChange}
               options={categories.map((category : CategoryType) => ({ label: category.title, value: category.id }))}
             />
           </Form.Item>
-          {/* <Form.Item label="Countries">
-            <Select
-              mode="multiple"
-              allowClear
-              style={{ width: '100%' }}
-              placeholder="Please select"
-              defaultValue={['a10', 'c12']}
-              onChange={handleChange}
-              options={options}
-            />
-          </Form.Item>
-          <Form.Item label="Authors">
-            <Select
-              mode="multiple"
-              allowClear
-              style={{ width: '100%' }}
-              placeholder="Please select"
-              defaultValue={['a10', 'c12']}
-              onChange={handleChange}
-              options={options}
-            />
-          </Form.Item> */}
-
           
           <Form.Item>
             <Row gutter={16}>
