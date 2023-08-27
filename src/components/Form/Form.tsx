@@ -1,7 +1,7 @@
 import { StyledForm } from "./StyledForm"
 
 interface Props {
-  children: React.ReactNode; // Specify the type for the 'children' prop
+  children: React.ReactNode; 
 }
 
 const Form : React.FC<Props> = ({children}) => {
