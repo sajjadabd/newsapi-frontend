@@ -6,8 +6,6 @@ import {
   Routes , 
 } from 'react-router-dom';
 
-
-
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 
@@ -23,16 +21,13 @@ import axios from 'axios';
 
 import { validateTokenURL } from './services/api';
 
-import { redirect } from "react-router-dom";
 import { Loader, Spinner } from './components/Loader/Loader';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
   const [username , setUsername] = useState("");
-  // const location = useLocation();
-  // const currentPath = location.pathname;
-  // console.table({currentPath});
+
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token');
@@ -48,15 +43,15 @@ function App() {
           const { valid , user } = response.data;
           setUsername(user.username);
           setIsUserAuthenticated(valid);
-          setIsLoading(false); // Done loading
+          setIsLoading(false); 
         })
         .catch(error => {
           console.error('Token validation error:', error);
           setIsUserAuthenticated(false);
-          setIsLoading(false); // Done loading
+          setIsLoading(false); 
         });
     } else {
-      setIsLoading(false); // Done loading
+      setIsLoading(false); 
     }
 
     return () => {
