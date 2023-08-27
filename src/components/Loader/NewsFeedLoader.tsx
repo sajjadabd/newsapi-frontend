@@ -18,8 +18,12 @@ const NewsFeedLoader : React.FC<Props> = ({loading}) => {
       <Divider orientation="left">News Feed</Divider>
       
       <Row style={{ display : 'flex' , justifyContent : 'center' }} gutter={16}>
-        {skeletons.map( () => 
-          <Col style={{ margin : '10px' }} span={7}>
+        {skeletons.map( (value , index) => 
+          <Col 
+          key={index}
+          style={{ margin : '10px' }} 
+          span={7}
+          >
           <Skeleton 
           style={{ padding : '10px' , margin : '10px' }}
           loading={loading} 

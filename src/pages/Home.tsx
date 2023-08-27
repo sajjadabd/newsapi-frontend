@@ -70,7 +70,9 @@ export default function Home () {
       >
         {articles.map( article => (
         
-        <Col style={{ margin : '10px' }} 
+        <Col 
+        key={article.id}
+        style={{ margin : '10px' }} 
         xs={{ span : 24 }} 
         sm={{ span : 20 }}
         md={{ span : 11 }}
