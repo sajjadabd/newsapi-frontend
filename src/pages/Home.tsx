@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Divider } from 'antd';
 import axios from 'axios';
 import { getUserArticles } from '../services/api';
 
-import { Badge, Card, Skeleton , Col, Row } from 'antd';
-import { ContentLoader, Spinner } from '../components/Loader/Loader';
+import { Badge, Card , Col, Row } from 'antd';
 import NewsFeedLoader from '../components/Loader/NewsFeedLoader';
-
-const { Meta } = Card;
 
 
 interface ArticleType {
@@ -19,12 +16,11 @@ interface ArticleType {
 
 export default function Home () {
   const [articles, setArticles] = useState<ArticleType[]>([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true); 
   
 
   useEffect(() => {
-    // Fetch user preferences and articles when the component mounts
-    const access_token = localStorage.getItem('access_token'); // Assuming you have a way to get the access token
+    const access_token = localStorage.getItem('access_token'); 
 
     axios.post( getUserArticles , null, {
       headers: {
@@ -60,7 +56,6 @@ export default function Home () {
 
   return (
     <>
-      {/* <div>Home</div> */}
       <Divider orientation="left">News Feed</Divider>
 
 
@@ -83,7 +78,6 @@ export default function Home () {
           loading={loading}
           style={{ paddingTop : '20px' }}
           title={article.title}
-          // bordered={true}
           >
             {article.description}
           </Card>
@@ -92,18 +86,6 @@ export default function Home () {
         
         ))}
       </Row>
-
-
-      {/* <ul>
-        {articles.map(article => (
-          <li key={article.id}>
-            <h2>{article.title}</h2>
-            <div>{article.source}</div>
-            <p>{article.description}</p>
-          </li>
-        ))}
-      </ul> */}
-
 
     </>
   )
