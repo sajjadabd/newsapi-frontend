@@ -1,5 +1,5 @@
 import React from 'react'
-import { Badge, Card, Skeleton , Col, Row } from 'antd';
+import { Card, Skeleton , Col, Row } from 'antd';
 import { Divider } from 'antd';
 
 const { Meta } = Card;
@@ -18,7 +18,7 @@ const NewsFeedLoader : React.FC<Props> = ({loading}) => {
       <Divider orientation="left">News Feed</Divider>
       
       <Row style={{ display : 'flex' , justifyContent : 'center' }} gutter={16}>
-        {skeletons.map( (value , index) => 
+        {skeletons.map( ( _ , index) => 
           <Col 
           key={index}
           style={{ margin : '10px' }} 
