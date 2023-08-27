@@ -10,7 +10,11 @@ import { loginRequestURL } from '../../services/api';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Input, Space } from 'antd';
 import { Center } from '../../components/Center/Center';
+import { Col, Row } from 'antd';
 
+import { Typography } from 'antd';
+
+const { Text } = Typography;
 
 function Login() {
 
@@ -68,7 +72,7 @@ function Login() {
     <Center>
       <h2>Login Page</h2>
 
-      <Space style={{ width: '30%' }} direction="vertical">
+      <Space direction="vertical">
 
             {/* <label htmlFor="email">Email</label> */}
 
@@ -101,7 +105,19 @@ function Login() {
           </Button>
         </Space>
 
-        <p>Don't have an account? <Link to="/register">Register</Link></p>
+
+        <Space style={{ marginTop : '20px' }} direction="horizontal">
+          <Text>Don't have an account?</Text>
+          <Link to="/register">
+            <Text 
+              style={{color : 'dodgerblue'}}
+              underline 
+            >
+              Register
+            </Text>
+          </Link>
+        </Space>
+
       </Center>
   );
 }

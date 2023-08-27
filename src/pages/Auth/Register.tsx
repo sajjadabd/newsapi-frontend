@@ -9,8 +9,9 @@ import { registerRequestURL } from '../../services/api';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Button, Input, Space } from 'antd';
 import { Center } from '../../components/Center/Center';
+import { Typography } from 'antd';
 
-
+const { Text } = Typography;
 
 function Register() {
 
@@ -71,7 +72,7 @@ function Register() {
     
     <Center>
       <h2>Registration Page</h2>
-      <Space style={{ width: '30%' }} direction="vertical">
+      <Space direction="vertical">
 
           {/* <label htmlFor="username">Username</label> */}
 
@@ -119,7 +120,18 @@ function Register() {
           </Button>
         </Space>
 
-      <p>Already have an account? <Link to="/login">Login</Link></p>
+      <Space style={{ marginTop : '20px' }} direction="horizontal">
+        <Text>Already have an account?</Text>
+        <Link to="/login">
+          <Text 
+            style={{color : 'dodgerblue'}}
+            underline 
+          >
+            Login
+          </Text>
+        </Link>
+      </Space>
+
     </Center>
 
 
