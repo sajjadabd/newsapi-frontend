@@ -12,6 +12,10 @@ import { Input } from 'antd';
 import { Select, Space } from 'antd';
 import { DatePicker } from 'antd';
 
+import { Typography } from 'antd';
+
+const { Paragraph, Title } = Typography;
+
 const { RangePicker } = DatePicker;
 
 interface ArticleType {
@@ -19,6 +23,7 @@ interface ArticleType {
   title : string ,
   description : string ,
   source : string ,
+  urlToImage : string ,
 }
 
 
@@ -29,10 +34,14 @@ interface SourceType {
   description : string ,
 }
 
+
+
 export default function Home () {
   const [articles, setArticles] = useState<ArticleType[]>([]);
+  const [filteredArticles , setFilteredArticles] = useState<ArticleType[]>([]);
   const [userSources , setUserSources] = useState<SourceType[]>([]); 
   const [loading, setLoading] = useState(true); 
+  const [searchQuery, setSearchQuery] = useState('');
   
 
   useEffect(() => {
@@ -65,6 +74,17 @@ export default function Home () {
 
   }, []);
   
+
+  const searchArticles = ( value : string ) => {
+    console.log(value);
+  }
+
+  const applyFilters = () => {
+    // Filter articles and update state
+    const filteredArticles = articles.filter((item , index) => item.title == searchQuery);
+    setFilteredArticles(filteredArticles);
+  };
+  
   
   if(loading) {
     return <div data-testid="news-feed-loader">
@@ -74,6 +94,8 @@ export default function Home () {
     </div>
   }
   
+
+ 
 
 
   return (
@@ -96,8 +118,10 @@ export default function Home () {
         >
           <Input 
             size="large" 
+            value={searchQuery}
             placeholder="search for news" 
             prefix={<SearchOutlined />} 
+            onChange={e => searchArticles(e.target.value)}
           />
           <Row 
           style={{ 
@@ -117,8 +141,8 @@ export default function Home () {
             </Col>
             <Col>
               <RangePicker
-              onChange={(e) => console.log(e)}
-              allowClear
+                onChange={(e) => console.log(e)}
+                allowClear
               />
             </Col>
           </Row>
@@ -140,13 +164,21 @@ export default function Home () {
         lg={{ span : 7  }}
         >
 
-          <Badge.Ribbon  text={article.source} color="#6c757d">
+          <Badge.Ribbon  text={article.source} color="#0d1b2a">
           <Card 
           loading={loading}
-          style={{ paddingTop : '20px' }}
-          title={article.title}
+          // bodyStyle={{ padding: '0' }}
+          bordered={true}
+          cover={
+            <img
+              loading='lazy'
+              alt={article.title}
+              src={article.urlToImage}
+            />
+          }
           >
-            {article.description}
+            <Title level={4} ellipsis={true}>{article.title}</Title>
+            <Paragraph ellipsis={true}>{article.description}</Paragraph>
           </Card>
           </Badge.Ribbon>
 

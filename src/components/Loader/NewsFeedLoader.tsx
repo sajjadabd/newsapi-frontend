@@ -17,12 +17,15 @@ const NewsFeedLoader : React.FC<Props> = ({loading}) => {
     <>
       <Divider orientation="left">News Feed</Divider>
       
-      <Row style={{ display : 'flex' , justifyContent : 'center' }} gutter={16}>
+      <Row style={{ display : 'flex' , justifyContent : 'center' }} gutter={30}>
         {skeletons.map( ( _ , index) => 
           <Col 
           key={index}
           style={{ margin : '10px' }} 
-          span={7}
+          xs={{ span : 24 }} 
+          sm={{ span : 20 }}
+          md={{ span : 11 }}
+          lg={{ span : 7  }}
           >
           <div role="article">
             <Skeleton 
