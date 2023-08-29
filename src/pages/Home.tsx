@@ -33,6 +33,8 @@ interface ArticleType {
   source : string ,
   urlToImage : string ,
   source_id : number ,
+  publishedAt : string ,
+  diffForHumans : string ,
 }
 
 
@@ -53,8 +55,8 @@ export default function Home () {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSource, setSelectedSource] = useState(''); // 'all' indicates no source selected
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token'); 
@@ -121,6 +123,7 @@ export default function Home () {
           />
         }
         >
+          <Paragraph>{article.diffForHumans}</Paragraph>
           <Title level={4} ellipsis={true}>{article.title}</Title>
           <Paragraph ellipsis={true}>{article.description}</Paragraph>
         </Card>
@@ -136,7 +139,7 @@ export default function Home () {
 
   const applySearchFilter = (searchValue : string) => {
     setSearchQuery(searchValue);
-    applyAllFilters(searchValue , selectedSource);
+    applyAllFilters(searchValue , selectedSource , startDate , endDate);
   };
 
   const debouncedHandleSearchArticles = _.debounce(applySearchFilter, 100);
@@ -145,21 +148,42 @@ export default function Home () {
     if(sourceValue) {
       let source = sourceValue.toString();
       setSelectedSource(source);
-      applyAllFilters(searchQuery , source);
+      applyAllFilters(searchQuery , source , startDate , endDate);
     } else {
       setSelectedSource('');
-      applyAllFilters(searchQuery , '');
+      applyAllFilters(searchQuery , '' , startDate , endDate);
     }
   } 
+
+
+  const applyDateFilter = ( 
+      startDateValue : string , 
+      endDateValue : string 
+    ) => {
+    setStartDate(startDateValue);
+    setEndDate(endDateValue);
+    applyAllFilters( 
+      searchQuery , 
+      selectedSource , 
+      startDateValue , 
+      endDateValue
+    );
+  }
  
 
 
-  const applyAllFilters = (searchValue : string , sourceValue : string) => {
+  const applyAllFilters = (
+      searchValue : string , 
+      sourceValue : string , 
+      startDate : string , 
+      endDate : string
+    ) => {
     const theFilteredArticles = articles.filter(article => {
       const matchesSearch = article.title.toLowerCase().includes(searchValue.toLowerCase());
       const matchesSource = sourceValue === '' || article.source_id.toString() === sourceValue;
-      //const matchesDate = !selectedDate || new Date(article.date) >= new Date(selectedDate);
-      return matchesSearch && matchesSource;// && matchesDate;
+      const matchesDate = (!startDate || new Date(article.publishedAt) >= new Date(startDate)) &&
+                          (!endDate || new Date(article.publishedAt) <= new Date(endDate));
+      return matchesSearch && matchesSource && matchesDate;
     });
     setFilteredArticles(theFilteredArticles);
     console.log(theFilteredArticles);
@@ -225,8 +249,7 @@ export default function Home () {
             <Col>
               <RangePicker
                 onChange={(dates , datesString) => {
-                  console.log(datesString[0]);
-                  console.log(datesString[1]);
+                  applyDateFilter(datesString[0] , datesString[1])
                 }}
                 allowClear
               />
