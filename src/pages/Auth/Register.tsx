@@ -62,7 +62,7 @@ function Register() {
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error('Registration failed:', error.response?.request.response);
+        //console.error('Registration failed:', error.response?.request.response);
         const errorData = error.response?.data;
         if (errorData && typeof errorData === 'object') {
 
@@ -90,7 +90,7 @@ function Register() {
         }
       } else {
         setGeneralError('An error occurred during registration!');
-        console.error('Registration failed:', error);
+        //console.error('Registration failed:', error);
       }
     } finally {
       setSubmitFormLoading(false);

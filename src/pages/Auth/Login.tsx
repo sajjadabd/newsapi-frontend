@@ -36,7 +36,7 @@ function Login() {
       ...prevData,
       [name]: value,
     }));
-    
+
   };
 
   const handleSubmit = async () => {
@@ -57,7 +57,7 @@ function Login() {
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error('Login failed:', error.response?.request.response);
+        //console.error('Login failed:', error.response?.request.response);
         const errorData = error.response?.data;
         if (errorData && typeof errorData === 'object') {
 
@@ -72,10 +72,7 @@ function Login() {
             if (errorData.errors.password) {
               setPasswordError(errorData.errors.password[0]);
             }
-
           }
-
-          
         } else {
           setGeneralError('An error occurred during login.');
         }
