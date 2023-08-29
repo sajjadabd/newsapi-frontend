@@ -24,16 +24,18 @@ const NewsFeedLoader : React.FC<Props> = ({loading}) => {
           style={{ margin : '10px' }} 
           span={7}
           >
-          <Skeleton 
-          style={{ padding : '10px' , margin : '10px' }}
-          loading={loading} 
-          active
-          >
-            <Meta
-              title="Card title"
-              description="This is the description"
-            />
-          </Skeleton>
+          <div role="article">
+            <Skeleton 
+            style={{ padding : '10px' , margin : '10px' }}
+            loading={loading} 
+            active
+            >
+              <Meta
+                title="Card title"
+                description="This is the description"
+              />
+            </Skeleton>
+          </div>
           </Col>
         )}
       </Row>
