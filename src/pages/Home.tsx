@@ -13,7 +13,7 @@ import { Input } from 'antd';
 
 import { Select, Space } from 'antd';
 import { DatePicker } from 'antd';
-
+import { Empty } from 'antd';
 import { Typography } from 'antd';
 
 const { Paragraph, Title } = Typography;
@@ -81,6 +81,14 @@ export default function Home () {
   }, []);
 
 
+
+  const showNoData = () => {
+    return <div style={{marginTop : '40px'}}>
+      <Empty />
+    </div>
+  }
+
+
   const showArticles = (articles : ArticleType[]) => {
 
     return articles.map( article => (    
@@ -124,7 +132,7 @@ export default function Home () {
     applyAllFilters(searchValue , selectedSource);
   };
 
-  const debouncedHandleSearchArticles = _.debounce(applySearchFilter, 500);
+  const debouncedHandleSearchArticles = _.debounce(applySearchFilter, 100);
   
   const applyFilterSources = ( sourceValue ?: number ) => {
     if(sourceValue) {
@@ -221,7 +229,7 @@ export default function Home () {
       style={{ display : 'flex' , justifyContent : 'center' }} 
       gutter={30}
       >
-        { filteredArticles.length > 0 ? showArticles(filteredArticles) : showArticles(articles)}
+        { filteredArticles.length > 0 ? showArticles(filteredArticles) : showNoData()}
       </Row>
 
     </>
