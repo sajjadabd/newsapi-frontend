@@ -68,7 +68,7 @@ export default function Home () {
     })
     .then(response => {
       const { articles , userSources } = response.data;
-      console.log(response.data);
+      //console.log(response.data);
       setUserSources(userSources);
       setArticles(articles);
       setFilteredArticles(articles);
@@ -186,7 +186,7 @@ export default function Home () {
       return matchesSearch && matchesSource && matchesDate;
     });
     setFilteredArticles(theFilteredArticles);
-    console.log(theFilteredArticles);
+    //console.log(theFilteredArticles);
   }
 
   

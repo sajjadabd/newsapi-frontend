@@ -7,7 +7,7 @@ import axios from 'axios';
 import { getUserPrefrencesURL } from '../services/api';
 import { ContentLoader, Spinner } from '../components/Loader/Loader';
 import { Col, Row } from 'antd';
-
+import { message } from 'antd';
 
 const options: SelectProps['options'] = [];
 
@@ -49,16 +49,21 @@ export default function Profile () {
     const [loading, setLoading] = useState(true);
     const [formSubmitLoading , setFormSubmitLoading] = useState(false);
 
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const showSuccessMessage = () => {
+      messageApi.success('Successfully Saved Changes!');
+    };
 
     
     const handleSourcesChange = (value: string[]) => {
-      console.log(`selected ${value}`);
+      //console.log(`selected ${value}`);
       setUserSources(value);
     };
 
 
     const handleCategoriesChange = (value: string[]) => {
-      console.log(`selected ${value}`);
+      //console.log(`selected ${value}`);
       setUserCategories(value);
     };
 
@@ -66,8 +71,8 @@ export default function Profile () {
     const handleSubmit = () => {
       setFormSubmitLoading(true);
 
-      console.log(`userSources : ` , userSources);
-      console.log(`userCategories : ` , userCategories);
+      //console.log(`userSources : ` , userSources);
+      //console.log(`userCategories : ` , userCategories);
 
       const access_token = localStorage.getItem('access_token');
 
@@ -79,7 +84,8 @@ export default function Profile () {
           Authorization: `Bearer ${access_token}`,
         },
       }).then( response => { 
-        console.log(response.data);
+        //console.log(response.data);
+        showSuccessMessage();
       }).catch(AxiosError => {
         console.error('updatePrefrences failed:', AxiosError.response?.request.response);
       })
@@ -148,6 +154,7 @@ export default function Profile () {
 
     return (
       <>
+        {contextHolder}
         <Divider orientation="left">Profile Settings</Divider>
 
         <Form
