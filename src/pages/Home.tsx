@@ -116,7 +116,10 @@ export default function Home () {
               />
             </Col>
             <Col>
-              <RangePicker />
+              <RangePicker
+              onChange={(e) => console.log(e)}
+              allowClear
+              />
             </Col>
           </Row>
         </Col>
