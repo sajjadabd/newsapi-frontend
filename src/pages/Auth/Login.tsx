@@ -19,19 +19,24 @@ function Login() {
   const [submitFormLoading , setSubmitFormLoading] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
-
+  const [generalError, setGeneralError] = useState<string | null>(null);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
+    setGeneralError(null);
     if( name == "email" ) {
       setEmailError(null);
     } else if ( name == "password" ) {
       setPasswordError(null);
     }
+
+
     setFormData(prevData => ({
       ...prevData,
       [name]: value,
     }));
+    
   };
 
   const handleSubmit = async () => {
@@ -55,18 +60,27 @@ function Login() {
         console.error('Login failed:', error.response?.request.response);
         const errorData = error.response?.data;
         if (errorData && typeof errorData === 'object') {
-          if (errorData.errors.email) {
-            setEmailError(errorData.errors.email[0]);
+
+          if (errorData && errorData.error === "Invalid credentials") {
+            // Handle specific "Invalid credentials" error
+            setGeneralError("Invalid credentials!");
+          } else {
+
+            if (errorData.errors.email) {
+              setEmailError(errorData.errors.email[0]);
+            }
+            if (errorData.errors.password) {
+              setPasswordError(errorData.errors.password[0]);
+            }
+
           }
-          if (errorData.errors.password) {
-            setPasswordError(errorData.errors.password[0]);
-          }
+
+          
         } else {
-          setEmailError('An error occurred during login.');
+          setGeneralError('An error occurred during login.');
         }
       } else {
-        console.error('Login failed:', error);
-        setEmailError('An error occurred during login.');
+        setGeneralError('An error occurred during login.');
       }
     } finally {
       setSubmitFormLoading(false);
@@ -125,6 +139,13 @@ function Login() {
               Login
             </Button>
 
+            <Center>
+            {generalError && (
+              <Text type="danger" style={{ marginTop: '10px' , marginBottom: '10px' }}>
+                {generalError}
+              </Text>
+            )}
+            </Center>
             
         </Space>
 
@@ -140,6 +161,9 @@ function Login() {
             </Text>
           </Link>
         </Space>
+
+
+
 
       </Center>
   );

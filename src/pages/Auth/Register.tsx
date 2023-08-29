@@ -22,10 +22,13 @@ function Register() {
   const [usernameError, setUsernameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [generalError, setGeneralError] = useState<string | null>(null);
 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
+    setGeneralError(null);
     if( name == "username" ) {
       setUsernameError(null);
     } else if( name == "email" ) {
@@ -33,6 +36,8 @@ function Register() {
     } else if ( name == "password" ) {
       setPasswordError(null);
     }
+
+
     setFormData(prevData => ({
       ...prevData,
       [name]: value,
@@ -60,21 +65,31 @@ function Register() {
         console.error('Registration failed:', error.response?.request.response);
         const errorData = error.response?.data;
         if (errorData && typeof errorData === 'object') {
-          if (errorData.errors.username) {
-            setUsernameError(errorData.errors.username[0]);
+
+          if (errorData && errorData.error === "Invalid credentials") {
+            // Handle specific "Invalid credentials" error
+            setGeneralError("An error occurred during registration!");
+          } else {
+
+            if (errorData.errors.username) {
+              setUsernameError(errorData.errors.username[0]);
+            }
+            if (errorData.errors.email) {
+              setEmailError(errorData.errors.email[0]);
+            }
+            if (errorData.errors.password) {
+              setPasswordError(errorData.errors.password[0]);
+            }
+
           }
-          if (errorData.errors.email) {
-            setEmailError(errorData.errors.email[0]);
-          }
-          if (errorData.errors.password) {
-            setPasswordError(errorData.errors.password[0]);
-          }
+
+          
           // Other field-specific errors
         } else {
-          setUsernameError('An error occurred during registration.');
+          setGeneralError('An error occurred during registration!');
         }
       } else {
-        setUsernameError('An error occurred during registration.');
+        setGeneralError('An error occurred during registration!');
         console.error('Registration failed:', error);
       }
     } finally {
