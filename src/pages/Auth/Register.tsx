@@ -65,6 +65,7 @@ function Register() {
       <Space direction="vertical">
 
           <Input
+            size={"large"}
             type="text"
             id="username"
             name="username"
@@ -75,6 +76,7 @@ function Register() {
           />
 
           <Input
+            size={"large"}
             type="email"
             id="email"
             name="email"
@@ -85,6 +87,7 @@ function Register() {
 
 
           <Input.Password
+            size={"large"}
             placeholder="Password"
             name="password"
             onChange={handleInputChange}
@@ -94,9 +97,11 @@ function Register() {
           
 
           <Button 
-          loading={submitFormLoading}
-          style={{ width: '100%' }} 
-          onClick={() => handleSubmit()}>
+            loading={submitFormLoading}
+            style={{ width: '100%' }} 
+            onClick={() => handleSubmit()}
+            size={"large"}
+          >
             Register
           </Button>
 

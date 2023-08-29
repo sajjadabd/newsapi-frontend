@@ -64,6 +64,7 @@ function Login() {
       <Space direction="vertical">
 
             <Input
+              size={"large"}
               type="email"
               id="email"
               name="email"
@@ -73,6 +74,7 @@ function Login() {
             />
 
             <Input.Password
+              size={"large"}
               placeholder="Password"
               name="password"
               onChange={handleInputChange}
@@ -83,9 +85,11 @@ function Login() {
 
 
             <Button 
-            loading={submitFormLoading}
-            style={{ width: '100%' }} 
-            onClick={() => handleSubmit()}>
+              loading={submitFormLoading}
+              style={{ width: '100%' }} 
+              onClick={() => handleSubmit()}
+              size={"large"}
+            >
               Login
             </Button>
 
