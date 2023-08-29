@@ -68,7 +68,7 @@ function Register() {
             type="text"
             id="username"
             name="username"
-            placeholder="username"
+            placeholder="Username"
             value={formData.username}
             onChange={handleInputChange}
             autoComplete="off"
@@ -85,7 +85,7 @@ function Register() {
 
 
           <Input.Password
-            placeholder="password"
+            placeholder="Password"
             name="password"
             onChange={handleInputChange}
             value={formData.password}
