@@ -26,6 +26,7 @@ interface ArticleType {
   description : string ,
   source : string ,
   urlToImage : string ,
+  source_id : number ,
 }
 
 
@@ -43,7 +44,9 @@ export default function Home () {
   const [filteredArticles , setFilteredArticles] = useState<ArticleType[]>([]);
   const [userSources , setUserSources] = useState<SourceType[]>([]); 
   const [loading, setLoading] = useState(true); 
+
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedSource, setSelectedSource] = useState(''); // 'all' indicates no source selected
   
 
   useEffect(() => {
@@ -59,6 +62,7 @@ export default function Home () {
       console.log(response.data);
       setUserSources(userSources);
       setArticles(articles);
+      setFilteredArticles(articles);
     })
     .catch(AxiosError => {
       console.error('getArticles failed:', AxiosError.response?.request.response);
@@ -113,24 +117,39 @@ export default function Home () {
   }
   
 
-  const searchArticles = ( value : string ) => {
-    applyFilters(value);
-  }
   
 
-  const applyFilters = (value : string) => {
-
-    const filteredArticles = articles.filter( article => {
-      const matchesSearch = article.title.toLowerCase().includes(value.toLowerCase());
-      return matchesSearch;
-    });
-
-    setFilteredArticles(filteredArticles);
-    console.log(filteredArticles);
+  const applySearchFilter = (searchValue : string) => {
+    setSearchQuery(searchValue);
+    applyAllFilters(searchValue , selectedSource);
   };
 
-  const debouncedHandleSearchArticles = _.debounce(searchArticles, 1000);
+  const debouncedHandleSearchArticles = _.debounce(applySearchFilter, 500);
   
+  const applyFilterSources = ( sourceValue ?: number ) => {
+    if(sourceValue) {
+      let source = sourceValue.toString();
+      setSelectedSource(source);
+      applyAllFilters(searchQuery , source);
+    } else {
+      setSelectedSource('');
+      applyAllFilters(searchQuery , '');
+    }
+  } 
+ 
+
+
+  const applyAllFilters = (searchValue : string , sourceValue : string) => {
+    const theFilteredArticles = articles.filter(article => {
+      const matchesSearch = article.title.toLowerCase().includes(searchValue.toLowerCase());
+      const matchesSource = sourceValue === '' || article.source_id.toString() === sourceValue;
+      //const matchesDate = !selectedDate || new Date(article.date) >= new Date(selectedDate);
+      return matchesSearch && matchesSource;// && matchesDate;
+    });
+    setFilteredArticles(theFilteredArticles);
+    console.log(theFilteredArticles);
+  }
+
   
   if(loading) {
     return <div data-testid="news-feed-loader">
@@ -185,6 +204,7 @@ export default function Home () {
                 style={{ width: 120 }}
                 allowClear
                 options={userSources.map((source : SourceType) => ({ label: source.title, value: source.id }))}
+                onChange={(value) => applyFilterSources(value)}
               />
             </Col>
             <Col>
