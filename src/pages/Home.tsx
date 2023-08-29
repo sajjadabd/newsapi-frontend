@@ -11,7 +11,10 @@ import NewsFeedLoader from '../components/Loader/NewsFeedLoader';
 import { SearchOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 
-import { Select, Space } from 'antd';
+import moment from 'moment';
+
+
+import { Select } from 'antd';
 import { DatePicker } from 'antd';
 import { Empty } from 'antd';
 import { Typography } from 'antd';
@@ -19,6 +22,9 @@ import { Typography } from 'antd';
 const { Paragraph, Title } = Typography;
 
 const { RangePicker } = DatePicker;
+
+
+
 
 interface ArticleType {
   id : number ,
@@ -47,7 +53,8 @@ export default function Home () {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSource, setSelectedSource] = useState(''); // 'all' indicates no source selected
-  
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
     const access_token = localStorage.getItem('access_token'); 
@@ -217,7 +224,10 @@ export default function Home () {
             </Col>
             <Col>
               <RangePicker
-                onChange={(e) => console.log(e)}
+                onChange={(dates , datesString) => {
+                  console.log(datesString[0]);
+                  console.log(datesString[1]);
+                }}
                 allowClear
               />
             </Col>
