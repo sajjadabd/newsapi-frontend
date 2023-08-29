@@ -16,12 +16,23 @@ function Register() {
     email : '',
     password: '',
   });
-  const [submitFormLoading , setSubmitFormLoading] = useState(false);
 
+
+  const [submitFormLoading , setSubmitFormLoading] = useState(false);
+  const [usernameError, setUsernameError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    if( name == "username" ) {
+      setUsernameError(null);
+    } else if( name == "email" ) {
+      setEmailError(null);
+    } else if ( name == "password" ) {
+      setPasswordError(null);
+    }
     setFormData(prevData => ({
       ...prevData,
       [name]: value,
@@ -47,7 +58,23 @@ function Register() {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error('Registration failed:', error.response?.request.response);
+        const errorData = error.response?.data;
+        if (errorData && typeof errorData === 'object') {
+          if (errorData.errors.username) {
+            setUsernameError(errorData.errors.username[0]);
+          }
+          if (errorData.errors.email) {
+            setEmailError(errorData.errors.email[0]);
+          }
+          if (errorData.errors.password) {
+            setPasswordError(errorData.errors.password[0]);
+          }
+          // Other field-specific errors
+        } else {
+          setUsernameError('An error occurred during registration.');
+        }
       } else {
+        setUsernameError('An error occurred during registration.');
         console.error('Registration failed:', error);
       }
     } finally {
@@ -64,6 +91,7 @@ function Register() {
       <Space direction="vertical">
 
           <Input
+            status={ usernameError ? 'error' : '' }
             size={"large"}
             type="text"
             id="username"
@@ -73,8 +101,14 @@ function Register() {
             onChange={handleInputChange}
             autoComplete="off"
           />
+          {usernameError && (
+            <Text type="danger" style={{ marginBottom: '10px' }}>
+              {usernameError}
+            </Text>
+          )}
 
           <Input
+            status={ emailError ? 'error' : '' }
             size={"large"}
             type="email"
             id="email"
@@ -83,9 +117,15 @@ function Register() {
             value={formData.email}
             onChange={handleInputChange}
           />
+          {emailError && (
+            <Text type="danger" style={{ marginBottom: '10px' }}>
+              {emailError}
+            </Text>
+          )}
 
 
           <Input.Password
+            status={ passwordError ? 'error' : '' }
             size={"large"}
             placeholder="Password"
             name="password"
@@ -93,6 +133,11 @@ function Register() {
             value={formData.password}
             iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
           />
+          {passwordError && (
+            <Text type="danger" style={{ marginBottom: '10px' }}>
+              {passwordError}
+            </Text>
+          )}
           
 
           <Button 

@@ -54,7 +54,7 @@ function Login() {
       if (axios.isAxiosError(error)) {
         console.error('Login failed:', error.response?.request.response);
         const errorData = error.response?.data;
-        if (errorData) {
+        if (errorData && typeof errorData === 'object') {
           if (errorData.errors.email) {
             setEmailError(errorData.errors.email[0]);
           }
