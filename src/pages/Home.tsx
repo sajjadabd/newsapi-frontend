@@ -77,16 +77,17 @@ export default function Home () {
         md={{ span : 11 }}
         lg={{ span : 7  }}
         >
+          <div  data-testid="article">
           <Badge.Ribbon  text={article.source} color="#6c757d">
           <Card 
           loading={loading}
           style={{ paddingTop : '20px' }}
           title={article.title}
-          data-testid="article"
           >
             {article.description}
           </Card>
           </Badge.Ribbon>
+          </div>
         </Col>
         
         ))}
