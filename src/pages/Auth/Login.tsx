@@ -73,7 +73,7 @@ function Login() {
             />
 
             <Input.Password
-              placeholder="password"
+              placeholder="Password"
               name="password"
               onChange={handleInputChange}
               value={formData.password}

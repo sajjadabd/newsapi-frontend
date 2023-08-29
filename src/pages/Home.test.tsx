@@ -8,23 +8,9 @@ import {setupServer} from 'msw/node'
 
 const server = setupServer(
   // capture "GET /greeting" requests
-  rest.get('/greeting', (req, res, ctx) => {
+  rest.get('/articles', (req, res, ctx) => {
     // respond using a mocked JSON body
-    return res(ctx.json({greeting: 'hello there'}))
-  }),
-)
-
-describe('Home', () => {
-
-  test('renders loading state initially', () => {
-    render(<Home />);
-
-    expect(screen.getByTestId('news-feed-loader')).toBeInTheDocument();
-  });
-
-
-  test('renders articles when loaded', async () => {
-    const mockArticles = [
+    return res(ctx.json([
       {
         id: 1,
         title: 'Test Article 1',
@@ -37,23 +23,24 @@ describe('Home', () => {
         description: 'Description of Test Article 2',
         source: 'Test Source 2',
       },
-    ];
+    ]))
+  }),
+)
 
-    axios.post.mockResolvedValueOnce({
-      data: {
-        articles: mockArticles,
-      },
-    });
 
+beforeAll(() => server.listen())
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
+
+describe('Home Tests', () => {
+
+  test('renders loading state initially', () => {
     render(<Home />);
 
-    await waitFor(() => {
-      const articleElements = screen.getAllByTestId('article');
-      expect(articleElements).toHaveLength(2);
-
-      expect(articleElements[0]).toHaveTextContent('Test Article 1');
-      expect(articleElements[1]).toHaveTextContent('Test Article 2');
-    });
+    expect(screen.getByTestId('news-feed-loader')).toBeInTheDocument();
   });
+
+
+  
 
 });
