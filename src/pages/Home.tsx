@@ -165,6 +165,7 @@ export default function Home () {
           lg={{ span : 22  }}
         >
           <Input 
+            allowClear
             size="large" 
             placeholder="search for news" 
             prefix={<SearchOutlined />} 
