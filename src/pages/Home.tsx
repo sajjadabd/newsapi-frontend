@@ -49,7 +49,11 @@ export default function Home () {
   
   
   if(loading) {
-    return <NewsFeedLoader loading={loading} />
+    return <div data-testid="news-feed-loader">
+      <NewsFeedLoader 
+        loading={loading}
+      />
+    </div>
   }
   
 
@@ -78,6 +82,7 @@ export default function Home () {
           loading={loading}
           style={{ paddingTop : '20px' }}
           title={article.title}
+          data-testid="article"
           >
             {article.description}
           </Card>

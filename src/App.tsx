@@ -63,7 +63,7 @@ function App() {
 
 
   if (isLoading) {
-    return <Loader>
+    return <Loader data-testid="loader">
       <Spinner></Spinner>
     </Loader>;
   }
