@@ -6,6 +6,13 @@ import { getUserArticles } from '../services/api';
 import { Badge, Card , Col, Row } from 'antd';
 import NewsFeedLoader from '../components/Loader/NewsFeedLoader';
 
+import { SearchOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
+
+import { Select, Space } from 'antd';
+import { DatePicker } from 'antd';
+
+const { RangePicker } = DatePicker;
 
 interface ArticleType {
   id : number ,
@@ -14,8 +21,17 @@ interface ArticleType {
   source : string ,
 }
 
+
+interface SourceType {
+  id : number ,
+  slug : string ,
+  title : string ,
+  description : string ,
+}
+
 export default function Home () {
   const [articles, setArticles] = useState<ArticleType[]>([]);
+  const [userSources , setUserSources] = useState<SourceType[]>([]); 
   const [loading, setLoading] = useState(true); 
   
 
@@ -28,7 +44,9 @@ export default function Home () {
       },
     })
     .then(response => {
-      const { articles } = response.data;
+      const { articles , userSources } = response.data;
+      console.log(response.data);
+      setUserSources(userSources);
       setArticles(articles);
     })
     .catch(AxiosError => {
@@ -62,6 +80,47 @@ export default function Home () {
     <>
       <Divider orientation="left">News Feed</Divider>
 
+      <Row 
+      style={{ 
+        display : 'flex' , 
+        justifyContent : 'center' ,
+        marginBottom : '20px' ,
+      }} 
+      gutter={30}
+      >
+        <Col
+        xs={{ span : 24 }} 
+        sm={{ span : 23 }}
+        md={{ span : 22 }}
+        lg={{ span : 22  }}
+        >
+          <Input 
+            size="large" 
+            placeholder="search for news" 
+            prefix={<SearchOutlined />} 
+          />
+          <Row 
+          style={{ 
+            display : 'flex' , 
+            justifyContent : 'space-between' ,
+            marginTop : '10px' ,
+          }} 
+          gutter={30}
+          >
+            <Col>
+              <Select
+                placeholder="source"
+                style={{ width: 120 }}
+                allowClear
+                options={userSources.map((source : SourceType) => ({ label: source.title, value: source.id }))}
+              />
+            </Col>
+            <Col>
+              <RangePicker />
+            </Col>
+          </Row>
+        </Col>
+      </Row>
 
       <Row 
       style={{ display : 'flex' , justifyContent : 'center' }} 
