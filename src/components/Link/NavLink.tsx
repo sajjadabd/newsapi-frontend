@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 
 export const NavLink = styled(Link)`
-  color:Silver ;
+  color: silver ;
   text-decoration : none;
   &:hover{
     color: LightGray ;
