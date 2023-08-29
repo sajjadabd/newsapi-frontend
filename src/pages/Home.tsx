@@ -111,10 +111,10 @@ export default function Home () {
       gutter={30}
       >
         <Col
-        xs={{ span : 24 }} 
-        sm={{ span : 23 }}
-        md={{ span : 22 }}
-        lg={{ span : 22  }}
+          xs={{ span : 24 }} 
+          sm={{ span : 20 }}
+          md={{ span : 22 }}
+          lg={{ span : 22  }}
         >
           <Input 
             size="large" 
