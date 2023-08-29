@@ -53,7 +53,6 @@ function Register() {
     } finally {
       setSubmitFormLoading(false);
     }
-    
 
   };
 

@@ -17,11 +17,17 @@ function Login() {
   });
 
   const [submitFormLoading , setSubmitFormLoading] = useState(false);
-
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    if( name == "email" ) {
+      setEmailError(null);
+    } else if ( name == "password" ) {
+      setPasswordError(null);
+    }
     setFormData(prevData => ({
       ...prevData,
       [name]: value,
@@ -30,7 +36,6 @@ function Login() {
 
   const handleSubmit = async () => {
     setSubmitFormLoading(true);
-    console.log('login...');
 
     try {
 
@@ -48,8 +53,20 @@ function Login() {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error('Login failed:', error.response?.request.response);
+        const errorData = error.response?.data;
+        if (errorData) {
+          if (errorData.errors.email) {
+            setEmailError(errorData.errors.email[0]);
+          }
+          if (errorData.errors.password) {
+            setPasswordError(errorData.errors.password[0]);
+          }
+        } else {
+          setEmailError('An error occurred during login.');
+        }
       } else {
         console.error('Login failed:', error);
+        setEmailError('An error occurred during login.');
       }
     } finally {
       setSubmitFormLoading(false);
@@ -64,6 +81,7 @@ function Login() {
       <Space direction="vertical">
 
             <Input
+              status={ emailError ? 'error' : '' }
               size={"large"}
               type="email"
               id="email"
@@ -73,7 +91,14 @@ function Login() {
               onChange={handleInputChange}
             />
 
+            {emailError && (
+              <Text type="danger" style={{ marginBottom: '10px' }}>
+                {emailError}
+              </Text>
+            )}
+
             <Input.Password
+              status={ passwordError ? 'error' : '' }
               size={"large"}
               placeholder="Password"
               name="password"
@@ -81,6 +106,13 @@ function Login() {
               value={formData.password}
               iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
             />
+
+
+            {passwordError && (
+              <Text type="danger" style={{ marginBottom: '10px' }}>
+                {passwordError}
+              </Text>
+            )}
           
 
 
