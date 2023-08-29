@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@babel/preset-env": "^7.22.10",
+    "@types/lodash": "^4.14.197",
     "antd": "^5.8.4",
     "axios": "^1.4.0",
     "lodash": "^4.17.21",

@@ -3,6 +3,8 @@ import { Divider } from 'antd';
 import axios from 'axios';
 import { getUserArticles } from '../services/api';
 
+import _ from 'lodash';
+
 import { Badge, Card , Col, Row } from 'antd';
 import NewsFeedLoader from '../components/Loader/NewsFeedLoader';
 
@@ -73,17 +75,61 @@ export default function Home () {
     };
 
   }, []);
+
+
+  const showArticles = (articles : ArticleType[]) => {
+
+    return articles.map( article => (    
+      <Col 
+      key={article.id}
+      style={{ margin : '10px' }} 
+      xs={{ span : 24 }} 
+      sm={{ span : 20 }}
+      md={{ span : 11 }}
+      lg={{ span : 7  }}
+      >
+
+        <Badge.Ribbon  text={article.source} color="#0d1b2a">
+        <Card 
+        loading={loading}
+        // bodyStyle={{ padding: '0' }}
+        bordered={true}
+        cover={
+          <img
+            loading='lazy'
+            alt={article.title}
+            src={article.urlToImage}
+          />
+        }
+        >
+          <Title level={4} ellipsis={true}>{article.title}</Title>
+          <Paragraph ellipsis={true}>{article.description}</Paragraph>
+        </Card>
+        </Badge.Ribbon>
+
+      </Col>
+      
+      ))
+  }
   
 
   const searchArticles = ( value : string ) => {
-    console.log(value);
+    applyFilters(value);
   }
+  
 
-  const applyFilters = () => {
-    // Filter articles and update state
-    const filteredArticles = articles.filter((item , index) => item.title == searchQuery);
+  const applyFilters = (value : string) => {
+
+    const filteredArticles = articles.filter( article => {
+      const matchesSearch = article.title.toLowerCase().includes(value.toLowerCase());
+      return matchesSearch;
+    });
+
     setFilteredArticles(filteredArticles);
+    console.log(filteredArticles);
   };
+
+  const debouncedHandleSearchArticles = _.debounce(searchArticles, 1000);
   
   
   if(loading) {
@@ -101,6 +147,8 @@ export default function Home () {
   return (
     <>
       <Divider orientation="left">News Feed</Divider>
+      
+      {/* <button onClick={() => console.log(filteredArticles)}>print</button> */}
 
       <Row 
       style={{ 
@@ -118,10 +166,9 @@ export default function Home () {
         >
           <Input 
             size="large" 
-            value={searchQuery}
             placeholder="search for news" 
             prefix={<SearchOutlined />} 
-            onChange={e => searchArticles(e.target.value)}
+            onChange={e => debouncedHandleSearchArticles(e.target.value)}
           />
           <Row 
           style={{ 
@@ -153,38 +200,7 @@ export default function Home () {
       style={{ display : 'flex' , justifyContent : 'center' }} 
       gutter={30}
       >
-        {articles.map( article => (
-        
-        <Col 
-        key={article.id}
-        style={{ margin : '10px' }} 
-        xs={{ span : 24 }} 
-        sm={{ span : 20 }}
-        md={{ span : 11 }}
-        lg={{ span : 7  }}
-        >
-
-          <Badge.Ribbon  text={article.source} color="#0d1b2a">
-          <Card 
-          loading={loading}
-          // bodyStyle={{ padding: '0' }}
-          bordered={true}
-          cover={
-            <img
-              loading='lazy'
-              alt={article.title}
-              src={article.urlToImage}
-            />
-          }
-          >
-            <Title level={4} ellipsis={true}>{article.title}</Title>
-            <Paragraph ellipsis={true}>{article.description}</Paragraph>
-          </Card>
-          </Badge.Ribbon>
-
-        </Col>
-        
-        ))}
+        { filteredArticles.length > 0 ? showArticles(filteredArticles) : showArticles(articles)}
       </Row>
 
     </>
