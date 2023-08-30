@@ -1,8 +1,8 @@
-import {render, screen, waitFor} from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import {render, screen} from '@testing-library/react'
+
 import '@testing-library/jest-dom'
 import Home from './Home';
-import axios from 'axios';
+
 import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 
