@@ -61,8 +61,10 @@ function Register() {
       window.location.href = '/';
 
     } catch (error) {
+      console.log(error);
       if (axios.isAxiosError(error)) {
         //console.error('Registration failed:', error.response?.request.response);
+        
         const errorData = error.response?.data;
         if (errorData && typeof errorData === 'object') {
 

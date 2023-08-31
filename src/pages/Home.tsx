@@ -66,7 +66,7 @@ export default function Home () {
     })
     .then(response => {
       const { articles , userSources } = response.data;
-      //console.log(response.data);
+      console.log(response.data);
       setUserSources(userSources);
       setArticles(articles);
       setFilteredArticles(articles);
