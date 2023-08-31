@@ -11,8 +11,6 @@ import NewsFeedLoader from '../components/Loader/NewsFeedLoader';
 import { SearchOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 
-import moment from 'moment';
-
 
 import { Select } from 'antd';
 import { DatePicker } from 'antd';
@@ -248,7 +246,7 @@ export default function Home () {
             </Col>
             <Col>
               <RangePicker
-                onChange={(dates , datesString) => {
+                onChange={(_ , datesString) => {
                   applyDateFilter(datesString[0] , datesString[1])
                 }}
                 allowClear

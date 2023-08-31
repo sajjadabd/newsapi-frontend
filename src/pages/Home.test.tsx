@@ -8,7 +8,7 @@ import {setupServer} from 'msw/node'
 
 const server = setupServer(
   // capture "GET /greeting" requests
-  rest.get('/articles', (req, res, ctx) => {
+  rest.get('/articles', (_, res, ctx) => {
     // respond using a mocked JSON body
     return res(ctx.json([
       {

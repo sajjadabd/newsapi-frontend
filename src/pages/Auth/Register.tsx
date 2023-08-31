@@ -164,6 +164,15 @@ function Register() {
             Register
           </Button>
 
+
+          <Center>
+            {generalError && (
+              <Text type="danger" style={{ marginTop: '10px' , marginBottom: '10px' }}>
+                {generalError}
+              </Text>
+            )}
+            </Center>
+
           
         </Space>
 

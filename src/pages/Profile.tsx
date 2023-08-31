@@ -83,7 +83,7 @@ export default function Profile () {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-      }).then( response => { 
+      }).then( (_) => { 
         //console.log(response.data);
         showSuccessMessage();
       }).catch(AxiosError => {
