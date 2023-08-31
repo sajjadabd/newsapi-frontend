@@ -18,7 +18,6 @@ RUN npm install -g serve
 # Build the React app
 RUN npm run build
 
-COPY /dist /dist
 
 
 EXPOSE 3000
